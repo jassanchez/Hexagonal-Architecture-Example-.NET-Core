@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ASoftware.Enterpise.Transversal\ASoftware.Enterprise.Transversal.Common.csproj" />
+    <ProjectReference Include="..\ASoftware.Enterprise.Aplicacion.DTO\ASoftware.Enterprise.Aplicacion.DTO.csproj" />
+    <ProjectReference Include="..\ASoftware.Enterprise.Aplicacion.Interfaz\ASoftware.Enterprise.Aplicacion.Interfaz.csproj" />
+    <ProjectReference Include="..\ASoftware.Enterprise.Aplicacion.Validator\ASoftware.Enterprise.Aplicacion.Validator.csproj" />
+    <ProjectReference Include="..\ASoftware.Enterprise.Dominio.Entity\ASoftware.Enterprise.Dominio.Entity.csproj" />
+    <ProjectReference Include="..\ASoftware.Enterprise.Dominio.Interfaz\ASoftware.Enterprise.Dominio.Interfaz.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,4 +1,4 @@
-# Hexagonal Architechture Example
+# Hexagonal Architechture Example .NET Core 8
 
 This project is an example of Hexagonal Architecture in a API REST with .NET Core using:
 - Dapper

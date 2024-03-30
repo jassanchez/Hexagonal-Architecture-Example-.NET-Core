@@ -11,6 +11,9 @@ using System.Security.Claims;
 using System.Text;
 
 namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
+    /// <summary>
+    /// Controlador de Users para Autenticacion
+    /// </summary>
     [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -19,18 +22,28 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
         private readonly IUsersApplication _usersApplication;
         private readonly AppSettings _appSettings;
 
+        /// <summary>
+        /// Constructor del Controller
+        /// </summary>
+        /// <param name="usersApplication">Interfaz de capa de Aplicacion</param>
+        /// <param name="appSettings">Archivo appsetings.json</param>
         public UsersController(IUsersApplication usersApplication, IOptions<AppSettings> appSettings) {
             _usersApplication = usersApplication;
             _appSettings = appSettings.Value;
         }
 
+        /// <summary>
+        /// Metodo Authenthicate
+        /// </summary>
+        /// <param name="authDto">Objeto Json Esperado</param>
+        /// <returns>Bearer Token para autorizacion</returns>
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Authenticate([FromBody]UsersDTO authDto) {
             var response = _usersApplication.Authenticate(authDto.Username, authDto.Password);
             if(response.IsSuccess) {
                 if(response.Data !=null) {
-                    response.Data.Token = BuildToken(response);
+                    response.Data.Token = BuildToken(authDto);
                     return Ok(response);
                 } else {
                     return NotFound(response);
@@ -40,12 +53,12 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
             return BadRequest(response);
         }
 
-        private string BuildToken(Response<UsersDTO> userDto) {
+        private string BuildToken(UsersDTO userDto) {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor {
                 Subject = new ClaimsIdentity(new Claim[] {
-                    new Claim(ClaimTypes.Name, userDto.Data.UserId.ToString())
+                    new Claim(ClaimTypes.Name, userDto.UserId.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(

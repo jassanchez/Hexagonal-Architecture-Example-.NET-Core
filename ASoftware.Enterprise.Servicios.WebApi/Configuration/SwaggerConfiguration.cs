@@ -2,7 +2,16 @@
 using System.Reflection;
 
 namespace ASoftware.Enterprise.Servicios.WebApi.Configuration {
+    /// <summary>
+    /// Clase de configuracion de Swagger para la API
+    /// </summary>
     public static class SwaggerConfiguration {
+
+        /// <summary>
+        /// Metodo para genear la configuracion de Swagger del API
+        /// </summary>
+        /// <param name="services"> Service Collector </param>
+        /// <returns></returns>
         public static IServiceCollection ConfigureSwagger(this IServiceCollection services) {
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();

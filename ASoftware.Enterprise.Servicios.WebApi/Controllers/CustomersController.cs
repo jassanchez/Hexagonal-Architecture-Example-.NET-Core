@@ -4,16 +4,29 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
+
+    /// <summary>
+    /// Controlador de Customers de API
+    /// </summary>
     [Authorize] 
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class CustomersController : Controller {
         private readonly ICustomerApplication _customerApplication;
         
+        /// <summary>
+        /// Constructor del Controller
+        /// </summary>
+        /// <param name="customerApplication">Interfaz para acceso a la capa de aplicacion</param>
         public CustomersController(ICustomerApplication customerApplication) {
             _customerApplication = customerApplication;
         }
 
+        /// <summary>
+        /// Metodo para crear un Customer
+        /// </summary>
+        /// <param name="customersDTO"> Objeto JSON esperado</param>
+        /// <returns> Resultado de la operacion </returns>
         [HttpPost]
         public IActionResult Insert([FromBody]CustomersDTO customersDTO) {
             if(customersDTO == null)
@@ -27,6 +40,11 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
                 return BadRequest(response.Message);
         }
 
+        /// <summary>
+        /// Metodo para actualizar un Customer
+        /// </summary>
+        /// <param name="customersDTO">Objeto JSON Esperado</param>
+        /// <returns> Resultado de la Operacion</returns>
         [HttpPut]
         public IActionResult Update([FromBody] CustomersDTO customersDTO) {
             if (customersDTO == null)
@@ -40,6 +58,11 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
                 return BadRequest(response.Message);
         }
 
+        /// <summary>
+        /// Metodo para eliminar a un cliente
+        /// </summary>
+        /// <param name="CustomerID">CustomerID for delete</param>
+        /// <returns> Resultado de la Operacion</returns>
         [HttpDelete("{CustomerID}")]
         public IActionResult Delete(string CustomerID) {
             if (string.IsNullOrEmpty(CustomerID))
@@ -53,6 +76,11 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
                 return BadRequest(response.Message);
         }
 
+        /// <summary>
+        /// Endpoint para consultar un cliente por ID
+        /// </summary>
+        /// <param name="CustomerID">ID del Customer</param>
+        /// <returns> Resultado de la operacion </returns>
         [HttpGet("{CustomerID}")]
         public IActionResult Get(string CustomerID) {
             if (string.IsNullOrEmpty(CustomerID))
@@ -66,6 +94,10 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
                 return BadRequest(response.Message);
         }
 
+        /// <summary>
+        /// Endpoint para consultar a todos los customers
+        /// </summary>
+        /// <returns> Resultado de la Operacion</returns>
         [HttpGet]
         public IActionResult GetAll() {
             var response = _customerApplication.GetAll();
@@ -76,7 +108,11 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
                 return BadRequest(response.Message);
         }
 
-
+        /// <summary>
+        /// Metodo asincrono para insertar un Customer
+        /// </summary>
+        /// <param name="customersDTO">Objeto Json Esperado</param>
+        /// <returns>Resultado de la Operacion</returns>
         [HttpPost]
         public async Task<IActionResult> InsertAsync([FromBody] CustomersDTO customersDTO) {
             if (customersDTO == null)
@@ -90,6 +126,11 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
                 return BadRequest(response.Message);
         }
 
+        /// <summary>
+        /// Metodo asincrono para actualizar la informacion de un Customer
+        /// </summary>
+        /// <param name="customersDTO">Objeto Json Esperado</param>
+        /// <returns> Resultado de la Operacion </returns>
         [HttpPut]
         public async Task<IActionResult> UpdateAsync([FromBody] CustomersDTO customersDTO) {
             if (customersDTO == null)
@@ -103,6 +144,11 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
                 return BadRequest(response.Message);
         }
 
+        /// <summary>
+        /// Metodo Asincrono para Eliminar a un Customer
+        /// </summary>
+        /// <param name="CustomerID">ID del Customer</param>
+        /// <returns>Resultado de la Operacion</returns>
         [HttpDelete("{CustomerID}")]
         public async Task<IActionResult> DeleteAsync(string CustomerID) {
             if (string.IsNullOrEmpty(CustomerID))
@@ -116,6 +162,11 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
                 return BadRequest(response.Message);
         }
 
+        /// <summary>
+        /// Metodo asincrono para consultar un Customer por ID
+        /// </summary>
+        /// <param name="CustomerID">ID del Customer</param>
+        /// <returns>Resultado de la operacion</returns>
         [HttpGet("{CustomerID}")]
         public async Task<IActionResult> GetAsync(string CustomerID) {
             if (string.IsNullOrEmpty(CustomerID))
@@ -129,6 +180,10 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
                 return BadRequest(response.Message);
         }
 
+        /// <summary>
+        /// Metodo asincrono para consulta de los Customers
+        /// </summary>
+        /// <returns>Resultado de la Operacion</returns>
         [HttpGet]
         public async Task<IActionResult> GetAllAsync() {
             var response = await _customerApplication.GetAllAsync();

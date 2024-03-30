@@ -11,7 +11,7 @@ namespace ASoftware.Enterprise.Infraestructura {
             _configuration = configuration;
         }
 
-        public IDbConnection GetConnection {
+        public IDbConnection? GetConnection {
             get {
                 SqlConnection sqlConnection = new SqlConnection();
                 if (sqlConnection == null) return null;

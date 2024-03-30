@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Serialization;
 using ASoftware.Enterprise.Aplicacion.Interfaz;
 using ASoftware.Enterprise.Aplicacion.Main;
 using ASoftware.Enterprise.Dominio.Core;
@@ -9,7 +10,6 @@ using ASoftware.Enterprise.Servicios.WebApi.Helpers;
 using ASoftware.Enterprise.Transversal.Common;
 using ASoftware.Enterprise.Transversal.Mapper;
 using ASoftware.Enterprise.Transversal.Logging;
-using Newtonsoft.Json.Serialization;
 using ASoftware.Enterprise.Servicios.WebApi.Validator;
 using ASoftware.Enterprise.Servicios.WebApi.Configuration;
 
@@ -22,23 +22,27 @@ builder.Services.AddMvc(opc => {
     opc.SuppressAsyncSuffixInActionNames = false;
 });
 
+/*
+ * Referenciando el AppSettinfs
+ */
+var appSettingSection = builder.Configuration.GetSection("Config");
+builder.Services.Configure<AppSettings>(appSettingSection);
+
+var appSettings = appSettingSection.Get<AppSettings>();
+if (appSettings == null) {
+    throw new FileNotFoundException("AppSettings Not Initialized");
+}
 
 /* Configurando y seteado CORS*/
 string policyCors = "policyApi";
 builder.Services.AddCors(CorsSettings => {
-    CorsSettings.AddPolicy(policyCors, b => b.WithOrigins(builder.Configuration["Config:OriginCors"])
+    CorsSettings.AddPolicy(policyCors, b => b.WithOrigins(appSettings.OriginCors)
     .AllowAnyHeader()
     .AllowAnyMethod());
 });
 
 builder.Services.AddAutoMapper(x => x.AddProfile(new MappingProfile()));
 builder.Services.AddMvc().AddNewtonsoftJson(opc => { opc.SerializerSettings.ContractResolver = new DefaultContractResolver(); });
-
-/*Usando JWT*/
-var appSettingSection = builder.Configuration.GetSection("Config");
-builder.Services.Configure<AppSettings>(appSettingSection);
-
-var appSettings = appSettingSection.Get<AppSettings>();
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>();
@@ -74,4 +78,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.Run();
 
+/// <summary>
+/// Extension para ser usado en Proyecto de Pruebas
+/// </summary>
 public partial class Program{ }

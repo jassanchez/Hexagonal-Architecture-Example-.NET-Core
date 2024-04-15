@@ -8,6 +8,7 @@ This project is an example of Hexagonal Architecture in a API REST with .NET Cor
 - Swagger
 - MSTest
 - Dockerfile for container
+- API Versioning
 and more ...
 
 ## Use

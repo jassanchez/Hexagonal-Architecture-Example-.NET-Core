@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ASoftware.Enterpise.Transversal\ASoftware.Enterprise.Transversal.Common.csproj" />
+    <ProjectReference Include="..\ASoftware.Enterprise.Transversal\ASoftware.Enterprise.Transversal.Common.csproj" />
     <ProjectReference Include="..\ASoftware.Enterprise.Aplicacion.DTO\ASoftware.Enterprise.Aplicacion.DTO.csproj" />
     <ProjectReference Include="..\ASoftware.Enterprise.Aplicacion.Interfaz\ASoftware.Enterprise.Aplicacion.Interfaz.csproj" />
     <ProjectReference Include="..\ASoftware.Enterprise.Aplicacion.Validator\ASoftware.Enterprise.Aplicacion.Validator.csproj" />

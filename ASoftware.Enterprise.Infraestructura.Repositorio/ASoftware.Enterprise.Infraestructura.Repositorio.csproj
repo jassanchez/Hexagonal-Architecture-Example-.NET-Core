@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ASoftware.Enterpise.Transversal\ASoftware.Enterprise.Transversal.Common.csproj" />
+    <ProjectReference Include="..\ASoftware.Enterprise.Transversal\ASoftware.Enterprise.Transversal.Common.csproj" />
     <ProjectReference Include="..\ASoftware.Enterprise.Infraestructura.Interfaz\ASoftware.Enterprise.Infraestructura.Interfaz.csproj" />
     <ProjectReference Include="..\ASoftware.Enterprise.Infraestructura\ASoftware.Enterprise.Infraestructura.Data.csproj" />
   </ItemGroup>

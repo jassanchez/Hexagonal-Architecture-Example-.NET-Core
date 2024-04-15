@@ -14,7 +14,7 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Modules.Authentication {
         /// Configuracion para JWT
         /// </summary>
         /// <param name="services"> Service Collector </param>
-        /// <param name="appSettings"> appsettings.json para informacion de la key</param>
+        /// <param name="configuration"> appsettings.json para informacion de la key</param>
         /// <returns></returns>
         public static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
@@ -23,7 +23,7 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Modules.Authentication {
             services.Configure<AppSettings>(appSettingSection);
             var appSettings = appSettingSection.Get<AppSettings>();
 
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(appSettings!.Secret);
             var Issuer = appSettings.Issuer;
             var Audience = appSettings.Audience;
 

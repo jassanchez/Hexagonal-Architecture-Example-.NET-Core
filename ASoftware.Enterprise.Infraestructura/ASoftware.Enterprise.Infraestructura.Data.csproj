@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ASoftware.Enterpise.Transversal\ASoftware.Enterprise.Transversal.Common.csproj" />
+    <ProjectReference Include="..\ASoftware.Enterprise.Transversal\ASoftware.Enterprise.Transversal.Common.csproj" />
   </ItemGroup>
 
 </Project>

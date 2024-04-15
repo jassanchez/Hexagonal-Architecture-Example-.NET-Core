@@ -20,6 +20,7 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Modules.Injection {
         /// Builder methos to add DI
         /// </summary>
         /// <param name="services">Service Collector</param>
+        /// <param name="configuration">IConfiguration for AppSettings</param>
         /// <returns></returns>
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services, IConfiguration configuration) {
 

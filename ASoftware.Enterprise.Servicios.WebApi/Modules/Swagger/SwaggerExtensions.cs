@@ -1,39 +1,32 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
-namespace ASoftware.Enterprise.Servicios.WebApi.Configuration {
+namespace ASoftware.Enterprise.Servicios.WebApi.Modules.Swagger
+{
     /// <summary>
     /// Clase de configuracion de Swagger para la API
     /// </summary>
-    public static class SwaggerConfiguration {
+    public static class SwaggerExtensions
+    {
 
         /// <summary>
         /// Metodo para genear la configuracion de Swagger del API
         /// </summary>
         /// <param name="services"> Service Collector </param>
         /// <returns></returns>
-        public static IServiceCollection ConfigureSwagger(this IServiceCollection services) {
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(options => {
-                options.SwaggerDoc("v1", new OpenApiInfo {
-                    Version = "v1",
-                    Title = "Customers API",
-                    Description = "An ASP.NET Core Web API for managing Customers",
-                    TermsOfService = new Uri(@"https://example.com/terms"),
-                    Contact = new OpenApiContact {
-                        Name = "Example Contact",
-                        Url = new Uri(@"https://example.com/contact")
-                    },
-                    License = new OpenApiLicense {
-                        Name = "Example License",
-                        Url = new Uri(@"https://example.com/license")
-                    }
-                });
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        {
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfigureOptions>();
+
+            services.AddSwaggerGen(options =>
+            {
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
                     Description = "Authorization by API key",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,

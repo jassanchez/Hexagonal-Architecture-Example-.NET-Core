@@ -1,7 +1,7 @@
 ﻿using ASoftware.Enterprise.Aplicacion.DTO;
 using ASoftware.Enterprise.Aplicacion.Interfaz;
 using ASoftware.Enterprise.Servicios.WebApi.Helpers;
-using ASoftware.Enterprise.Transversal.Common;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -10,14 +10,16 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
+namespace ASoftware.Enterprise.Servicios.WebApi.Controllers.v1 {
     /// <summary>
     /// Controlador de Users para Autenticacion
     /// </summary>
     [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class UsersController : Controller {
+    [ApiVersion("1.0")]
+    public class UsersController : Controller
+    {
 
         private readonly IUsersApplication _usersApplication;
         private readonly AppSettings _appSettings;
@@ -27,7 +29,8 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
         /// </summary>
         /// <param name="usersApplication">Interfaz de capa de Aplicacion</param>
         /// <param name="appSettings">Archivo appsetings.json</param>
-        public UsersController(IUsersApplication usersApplication, IOptions<AppSettings> appSettings) {
+        public UsersController(IUsersApplication usersApplication, IOptions<AppSettings> appSettings)
+        {
             _usersApplication = usersApplication;
             _appSettings = appSettings.Value;
         }
@@ -39,13 +42,18 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
         /// <returns>Bearer Token para autorizacion</returns>
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Authenticate([FromBody]UsersDTO authDto) {
+        public IActionResult Authenticate([FromBody] UsersDTO authDto)
+        {
             var response = _usersApplication.Authenticate(authDto.Username, authDto.Password);
-            if(response.IsSuccess) {
-                if(response.Data !=null) {
+            if (response.IsSuccess)
+            {
+                if (response.Data != null)
+                {
                     response.Data.Token = BuildToken(authDto);
                     return Ok(response);
-                } else {
+                }
+                else
+                {
                     return NotFound(response);
                 }
             }
@@ -53,10 +61,12 @@ namespace ASoftware.Enterprise.Servicios.WebApi.Controllers {
             return BadRequest(response);
         }
 
-        private string BuildToken(UsersDTO userDto) {
+        private string BuildToken(UsersDTO userDto)
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor {
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
                 Subject = new ClaimsIdentity(new Claim[] {
                     new Claim(ClaimTypes.Name, userDto.UserId.ToString())
                 }),
